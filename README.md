@@ -1,11 +1,16 @@
 # arch_install
 
-loadkeys fr
-cfdisk
+```loadkeys fr```
+
+```cfdisk```
+
+```
 => GPT
 => New 512M Type EFI System
 => New XXXG Type Linux filesystem
 => Quit
+```
+
 mkfs.vfat /dev/sda1
 mkfs.ext4 /dev/sda2
 
