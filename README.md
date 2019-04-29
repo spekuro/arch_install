@@ -50,7 +50,7 @@ mount /dev/sda1 /mnt/boot
 
 ### Installation de base :
 
-## Préparation :
+#### Préparation :
 
 On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder que les serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base :
 
@@ -64,7 +64,7 @@ On entre dans l'environnement :
 
 ```arch-chroot /mnt```
 
-## Mise en place du bootloader et installation du microcode :
+#### Mise en place du bootloader et installation du microcode :
 
 On installe le bootloader (ici le bootloader de systemd) et le microcode associé au processeur (ici intel) :
 
@@ -89,7 +89,7 @@ initrd /intel-ucode.img
 options root=PARTUUID=[PARTUUID_sda2_sans_les_guillemets] rw (:r !blkid pour avoir l'id)
 ```
 
-## Passage du système en FR :
+#### Passage du système en FR :
 
 On modifie `/etc/vconsole.conf` :
 
@@ -122,25 +122,37 @@ ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc --utc
 ```
 
-## Génération du noyau et prise en charge du réseau
+#### Génération du noyau et prise en charge du réseau
+
 On génère le noyau :
+
 ```mkinitcpio -p linux```
 
 Et on installe NetworkManager (qu'on active au démarrage) :
+
 ```
 pacman -Syy networkmanager
 systemctl enable NetworkManager
 ```
 
-## Reboot :)
+### Reboot :)
+
 On peut maintenant sortir de l'environnement, éjecter le support et rebooter :
+
 ```
 exit
 umount -R /mnt
 reboot
 ```
 
+Archlinux est installée ! On peut maintenant passer à l'installation de l'environnement Gnome, et des paquets nécessaires au quotidien.
 
+&nbsp;
+
+INSTALLATION DE L'ENVIRONNEMENT GRAPHIQUE
+-----------------------------------------
+
+pacman -Sy
 
 pacman -S ntp cronie
 
@@ -155,6 +167,7 @@ pacman -S tlp
 pacman -S xf86-input-libinput
 
 pacman -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2
+yay -S otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family
 
 useradd -m -g wheel -c 'Marc SISTO' -s /bin/bash msisto
 passwd msisto
@@ -237,6 +250,5 @@ polkit.addRule(function (action, subject) {
   }
 })
 
-yay -S otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family
 
 
