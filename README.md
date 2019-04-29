@@ -158,24 +158,46 @@ umount -R /mnt
 reboot
 ```
 
-Archlinux est installée ! On peut maintenant passer à l'installation de l'environnement Gnome, et des paquets nécessaires au quotidien.
+Archlinux est installée ! On peut maintenant passer à l'installation de l'environnement Gnome, et des paquets utiles au quotidien.
 
 &nbsp;
 
 INSTALLATION DE L'ENVIRONNEMENT GRAPHIQUE
 -----------------------------------------
 
-pacman -Sy
+On active le support "multilib" pour pouvoir installer des librairies 32 bits, nécessaires à certains programmes (Steam par ex.), en décochant les lignes suivantes dans le fichier `/etc/pacman.conf` :
 
-pacman -S ntp cronie
+```
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
 
-vim /etc/systemd/journald.conf 
-ForwardToSyslog=yes
+On actualise les dépôts :
 
-pacman -S gst-plugins-{base,good,bad,ugly} gst-libav
+```pacman -Sy```
+
+On installe yay pour pouvoir utiliser le Arch User Repository :
+
+```
+pacman -S git
+git clone https://aur.archlinux.org/yay
+cd yay
+makepkg -sri
+```
+
+Et on commence les installations de paquets :
+
+. Base
+```pacman -S ntp cronie```
 pacman -S xorg-{server,xinit,apps} xf86-input-{mouse,keyboard} xdg-user-dirs
+
+. Impression
 pacman -S cups
 
+. Multimedia
+pacman -S gst-plugins-{base,good,bad,ugly} gst-libav
+
+. Pour un portable
 pacman -S tlp
 pacman -S xf86-input-libinput
 
@@ -190,6 +212,9 @@ visudo
 
 pacman -S gnome gnome-extra
 
+vim /etc/systemd/journald.conf 
+ForwardToSyslog=yes
+
 sudo localectl set-x11-keymap fr
 
 systemctl enable syslog-ng@default
@@ -201,10 +226,7 @@ systemctl enable ntpd
 
 systemctl enable gdm
 
-pacman -S git
-git clone https://aur.archlinux.org/yay
-cd yay
-makepkg -sri
+
 
 pacman -S vivaldi vivaldi-ffmpeg-codecs deluge pygtk
 
@@ -231,9 +253,7 @@ smplayer
 vlc
 gimp gimp-help-fr libreoffice-fresh-fr hunspell-fr inkscape blender
 
-/etc/pacman.conf
-[multilib]
-Include = /etc/pacman.d/mirrorlist
+
 
 yay -S steam
 retroarch retoarch-assets-xmb libretro-shaders libretro-snes9x libretro-mgba libretro-bsnes
