@@ -5,9 +5,12 @@
 ```cfdisk```
 
 => GPT
-=> New 512M Type EFI System
-=> New XXXG Type Linux filesystem
-=> Quit
+
+| Référence | Point de montage | Taille   | Type         |
+|-----------|------------------|----------|--------------|
+| /dev/sda1 | /boot            | 512 Mo   | EFI System   |
+| /dev/sda2 | /                | Le reste | Linux System |
+
 
 ```
 mkfs.vfat /dev/sda1
@@ -21,6 +24,7 @@ mount /dev/sda1 /mnt/boot
 ```
 
 ```pacstrap /mnt base base-devel pacman-contrib```
+
 ```pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync```
 
 ```genfstab -U -p /mnt >> /mnt/etc/fstab```
