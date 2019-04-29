@@ -285,3 +285,4 @@ polkit.addRule(function (action, subject) {
 
 pacstrap /mnt zip unzip p7zip mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync
 
+```yay -S wine lib32-libpulse```
