@@ -52,9 +52,12 @@ mount /dev/sda1 /mnt/boot
 
 #### Préparation :
 
-On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder que les serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base :
+On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder que les serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base (et vim pour l'édition des fichiers) :
 
-```pacstrap /mnt base base-devel pacman-contrib```
+```
+pacstrap /mnt base base-devel pacman-contrib
+pacstrap /mnt vim
+```
 
 On génère le fichier fstab listant les partitions :
 
@@ -63,6 +66,8 @@ On génère le fichier fstab listant les partitions :
 On entre dans l'environnement :
 
 ```arch-chroot /mnt```
+
+&nbsp;
 
 #### Mise en place du bootloader et installation du microcode :
 
@@ -86,8 +91,12 @@ title Archlinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
 initrd /intel-ucode.img
-options root=PARTUUID=[PARTUUID_sda2_sans_les_guillemets] rw (:r !blkid pour avoir l'id)
+options root=PARTUUID=[PARTUUID_sda2] rw
 ```
+
+**NB :** Pour obtenir le PARTUUID dans vim, il faut taper `ECHAP` puis `:r !blkid`
+
+&nbsp;
 
 #### Passage du système en FR :
 
@@ -122,6 +131,8 @@ ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc --utc
 ```
 
+&nbsp;
+
 #### Génération du noyau et prise en charge du réseau
 
 On génère le noyau :
@@ -134,6 +145,8 @@ Et on installe NetworkManager (qu'on active au démarrage) :
 pacman -Syy networkmanager
 systemctl enable NetworkManager
 ```
+
+&nbsp;
 
 ### Reboot :)
 
@@ -250,5 +263,5 @@ polkit.addRule(function (action, subject) {
   }
 })
 
-
+pacstrap /mnt zip unzip p7zip mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync
 
