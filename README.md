@@ -4,66 +4,80 @@
 
 ```cfdisk```
 
-```
 => GPT
 => New 512M Type EFI System
 => New XXXG Type Linux filesystem
 => Quit
-```
 
+```
 mkfs.vfat /dev/sda1
 mkfs.ext4 /dev/sda2
+```
 
+```
 mount /dev/sda2 /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
+```
 
-pacstrap /mnt base base-devel pacman-contrib
-pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync
-genfstab -U -p /mnt >> /mnt/etc/fstab
+```pacstrap /mnt base base-devel pacman-contrib```
+```pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync```
 
-arch-chroot /mnt
+```genfstab -U -p /mnt >> /mnt/etc/fstab```
 
-bootctl install
+```arch-chroot /mnt```
 
-vim /boot/loader/loader.conf
+```bootctl install```
+
+```pacman -S intel-ucode```
+
+```vim /boot/loader/loader.conf```
+```
 default arch
-timeout 4
+timeout 0
+```
 
-vim /boot/loader/entries/arch.conf
+```vim /boot/loader/entries/arch.conf```
+```
 title Archlinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
+initrd /intel-ucode.img
 options root=PARTUUID=[PARTUUID_sda2_sans_les_guillemets] rw (:r !blkid pour avoir l'id)
+```
 
-vim /etc/vconsole.conf
+```vim /etc/vconsole.conf```
+```
 KEYMAP=fr-latin9
 FONT=eurlatgr
+```
 
-vim /etc/locale.conf
+```vim /etc/locale.conf```
+```
 LANG=fr_FR.UTF-8
 LC_COLLATE=C
+```
 
-vim /etc/locale.gen
+```vim /etc/locale.gen```
+```
 fr_FR.UTF-8 UTF-8
+```
 
-locale-gen
+```locale-gen```
 
-ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
-hwclock --systohc --utc
+```ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime```
+```hwclock --systohc --utc```
 
-mkinitcpio -p linux
+```mkinitcpio -p linux```
 
-pacman -Syy networkmanager
-systemctl enable NetworkManager
+```pacman -Syy networkmanager```
+```systemctl enable NetworkManager```
 
-exit
-umount -R /mnt
-reboot
+```exit```
+```umount -R /mnt```
+```reboot```
 
-pacman -S intel-ucode
-vim /boot/loader/entries/arch.conf
-initrd /intel-ucode.img
+
 
 pacman -S ntp cronie
 
@@ -161,15 +175,5 @@ polkit.addRule(function (action, subject) {
 })
 
 yay -S otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family
-
-Window Titles: Fira Sans SemiBold 10
-Interface: Fira Sans Book 10
-Documents: Roboto Slab Regular 11
-Monospace: Fira Mono Regular 11
-
-[Gaming]
-[ ] Steam
-[ ] Retroarch
-[ ] NPS Browser
 
 
