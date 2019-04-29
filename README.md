@@ -1,4 +1,5 @@
-# arch_install
+INSTALLATION DE BASE
+--------------------
 
 **Chargement du clavier en français :**
 
@@ -21,20 +22,20 @@ On quitte et on formate les partitions :
 mkfs.vfat /dev/sda1
 mkfs.ext4 /dev/sda2
 ```
----
-*Dans le cas où on souhaiterait une partition Swap :*
 
-| Référence | Point de montage | Taille                      | Type         |
-|-----------|------------------|-----------------------------|--------------|
-| /dev/sdaX | -                | Taille identique à la RAM   | Linux Swap   |
+>Dans le cas où on souhaiterait une partition Swap :
+>
+>| Référence | Point de montage | Taille                      | Type         |
+>|-----------|------------------|-----------------------------|--------------|
+>| /dev/sdaX | -                | Taille identique à la RAM   | Linux Swap   |
+>
+>Puis :
+>
+>```
+>mkswap /dev/sdaX
+>swapon /dev/sdaX
+>```
 
-*Puis :*
-
-```
-mkswap /dev/sdaX
-swapon /dev/sdaX
-```
----
 
 ```
 mount /dev/sda2 /mnt
