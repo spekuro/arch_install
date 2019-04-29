@@ -1,11 +1,13 @@
 INSTALLATION DE BASE
 --------------------
 
-**Chargement du clavier en français :**
+### Chargement du clavier en français :
 
 ```loadkeys fr```
 
-**Partitionnement :**
+&nbsp;
+
+### Partitionnement :
 
 ```cfdisk```
 
@@ -36,6 +38,7 @@ mkfs.ext4 /dev/sda2
 >swapon /dev/sdaX
 >```
 
+On monte ensuite les partitions :
 
 ```
 mount /dev/sda2 /mnt
@@ -43,25 +46,41 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
+&nbsp;
+
+### Installation de base :
+
+## Préparation :
+
+On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder que les serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base :
+
 ```pacstrap /mnt base base-devel pacman-contrib```
 
-```pacstrap /mnt zip unzip p7zip vim mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync```
+On génère le fichier fstab listant les partitions :
 
 ```genfstab -U -p /mnt >> /mnt/etc/fstab```
 
+On entre dans l'environnement :
+
 ```arch-chroot /mnt```
 
-```bootctl install```
+## Mise en place du bootloader et installation du microcode :
 
-```pacman -S intel-ucode```
+On installe le bootloader (ici le bootloader de systemd) et le microcode associé au processeur (ici intel) :
 
-```vim /boot/loader/loader.conf```
+`bootctl install` pour l'installation du bootloader.
+
+`pacman -S intel-ucode` pour l'installation du microcode.
+
+On crée le fichier `/boot/loader/loader.conf` comme suit (le timeout est ici à 0 mais peut être maintenu à 3 ou 4 secondes dans un premier temps) :
+
 ```
 default arch
 timeout 0
 ```
 
-```vim /boot/loader/entries/arch.conf```
+Et le fichier `/boot/loader/entries/arch.conf` :
+
 ```
 title Archlinux
 linux /vmlinuz-linux
@@ -70,36 +89,56 @@ initrd /intel-ucode.img
 options root=PARTUUID=[PARTUUID_sda2_sans_les_guillemets] rw (:r !blkid pour avoir l'id)
 ```
 
-```vim /etc/vconsole.conf```
+## Passage du système en FR :
+
+On modifie `/etc/vconsole.conf` :
+
 ```
 KEYMAP=fr-latin9
 FONT=eurlatgr
 ```
 
-```vim /etc/locale.conf```
+Puis `/etc/locale.conf` :
+
 ```
 LANG=fr_FR.UTF-8
 LC_COLLATE=C
 ```
 
-```vim /etc/locale.gen```
+Puis `/etc/locale.gen` :
+
 ```
 fr_FR.UTF-8 UTF-8
 ```
 
+Et on lance la commande :
+
 ```locale-gen```
 
-```ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime```
-```hwclock --systohc --utc```
+Pour spécifier le fuseau horaire :
 
+```
+ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+hwclock --systohc --utc
+```
+
+## Génération du noyau et prise en charge du réseau
+On génère le noyau :
 ```mkinitcpio -p linux```
 
-```pacman -Syy networkmanager```
-```systemctl enable NetworkManager```
+Et on installe NetworkManager (qu'on active au démarrage) :
+```
+pacman -Syy networkmanager
+systemctl enable NetworkManager
+```
 
-```exit```
-```umount -R /mnt```
-```reboot```
+## Reboot :)
+On peut maintenant sortir de l'environnement, éjecter le support et rebooter :
+```
+exit
+umount -R /mnt
+reboot
+```
 
 
 
