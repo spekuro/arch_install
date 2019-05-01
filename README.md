@@ -234,10 +234,11 @@ yay -S xf86-video-intel --noconfirm
 
 &nbsp;
 
-* Impression
+* Impression (La deuxième ligne est valable dans le cas d'une imprimante Canon)
 
 ```
 yay -S cups system-config-printer --noconfirm
+yay -S cnijfilter2 scangearmp2
 ```
 
 &nbsp;
