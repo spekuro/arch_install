@@ -306,15 +306,17 @@ systemctl enable org.cups.cupsd
 systemctl enable ntpd
 ```
 
-&nbsp;
-
 Pour GDM :
 
 ```
 systemctl enable gdm
 ```
 
-* Pour avoir un boot plus "sexy", il faut modifier les hooks dans le fichier `/etc/mkinitcpio.conf` :
+&nbsp;
+
+* Pour un boot plus "sexy" :
+
+Il faut modifier les hooks dans le fichier `/etc/mkinitcpio.conf` :
 
 ```
 #HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)
