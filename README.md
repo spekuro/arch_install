@@ -398,7 +398,7 @@ yay -S jdownloader2 --noconfirm
 yay -S spotify --noconfirm
 yay -S mkvtoolnix-gui --noconfirm
 yay -S soundconverter --noconfirm
-yay -S smplayer --noconfirm
+yay -S smplayer smplayer-themes --noconfirm
 yay -S vlc --noconfirm
 yay -S gimp gimp-help-fr --noconfirm
 yay -S inkscape --noconfirm
