@@ -370,6 +370,7 @@ yay -S otpclient --noconfirm
 yay -S jdk --noconfirm
 yay -S imagemagick --noconfirm
 yay -S wine lib32-libpulse --noconfirm
+yay -S lanshare --noconfirm
 ```
 
 &nbsp;
