@@ -165,6 +165,8 @@ Archlinux est installée ! On peut maintenant passer à l'installation de l'envi
 INSTALLATION DE L'ENVIRONNEMENT GRAPHIQUE
 -----------------------------------------
 
+### Préparation
+
 On active le support "multilib" pour pouvoir installer des librairies 32 bits, nécessaires à certains programmes (Steam par ex.), en décochant les lignes suivantes dans le fichier `/etc/pacman.conf` :
 
 ```
@@ -185,113 +187,200 @@ cd yay
 makepkg -sri
 ```
 
-Et on commence les installations de paquets :
+On crée un utilisateur avec les bons droits :
 
-. Base
-```pacman -S ntp cronie```
-pacman -S xorg-{server,xinit,apps} xf86-input-{mouse,keyboard} xdg-user-dirs
+```
+useradd -m -g wheel -c 'Prénom NOM' -s /bin/bash [user]
+passwd [user]
+```
 
-. Impression
-pacman -S cups
+Puis on tape `visudo` et on décommente la ligne juste en dessous de `#Uncomment to allow members of group wheel to execute any command`
 
-. Multimedia
-pacman -S gst-plugins-{base,good,bad,ugly} gst-libav
+&nbsp;
 
-. Pour un portable
-pacman -S tlp
-pacman -S xf86-input-libinput
+### Installation des paquets nécessaires
 
-pacman -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2
-yay -S otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family
+On passe ensuite aux installations de paquets avec yay, qui propose également une interface pour pacman :
 
-useradd -m -g wheel -c 'Marc SISTO' -s /bin/bash msisto
-passwd msisto
+* Base
 
-visudo
-#Uncomment to allow members of group wheel to execute any command
+```
+yay -S zip unzip p7zip mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync --noconfirm
+yay -S ntp cronie --noconfirm
+yay -S xorg-{server,xinit,apps} xf86-input-{mouse,keyboard} xdg-user-dirs --noconfirm
+```
 
-pacman -S gnome gnome-extra
+* Pilotes graphiques (ici pour Intel)
 
+```yay -S xf86-video-intel --noconfirm```
+
+* Impression
+
+```yay -S cups system-config-printer --noconfirm```
+
+* Multimedia (Codecs et gestion de l'ouverture des fichiers par mimetype)
+
+```
+yay -S gst-plugins-{base,good,bad,ugly} gst-libav --noconfirm
+yay -S perl-file-mimeinfo --noconfirm
+```
+
+* Pour un PC portable (Gestion de l'énergie et du pavé tactile)
+
+```
+yay -S tlp --noconfirm
+yay -S xf86-input-libinput --noconfirm
+```
+
+* Quelques polices
+
+```yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family --noconfirm```
+
+* Et Gnome :)
+
+```yay -S gnome gnome-extra --noconfirm```
+
+&nbsp;
+
+### Derniers réglages
+
+* Pour la gestion des logs
+
+```
 vim /etc/systemd/journald.conf 
 ForwardToSyslog=yes
+```
 
-sudo localectl set-x11-keymap fr
+* Pour avoir le clavier en français sous GDM :
 
+```sudo localectl set-x11-keymap fr```
+
+* On active quelques services au démarrage :
+
+```
 systemctl enable syslog-ng@default
 systemctl enable cronie
 systemctl enable avahi-daemon
 systemctl enable avahi-dnsconfd
 systemctl enable org.cups.cupsd
 systemctl enable ntpd
+```
 
-systemctl enable gdm
+Pour GDM :
 
+```systemctl enable gdm```
 
+* Pour avoir un boot plus "sexy", il faut modifier les hooks dans le fichier `/etc/mkinitcpio.conf` :
 
-pacman -S vivaldi vivaldi-ffmpeg-codecs deluge pygtk
-
-pacman -S xf86-video-intel 
-
-pacman -S gtk-engine-murrine gtk-engines
-
-mkdir .themes
-cd .themes
-git clone https://github.com/vinceliuice/vimix-gtk-themes.git
-Install
-
-mkdir .icons
-cd .icons
-git clone https://github.com/vinceliuice/vimix-icon-theme.git
-Install
-
-yay -S galculator --noconfirm
-yay -S spotify --noconfirm
-mkvtoolnix-gui
-soundconverter
-filezilla
-smplayer
-vlc
-gimp gimp-help-fr libreoffice-fresh-fr hunspell-fr inkscape blender
-
-
-
-yay -S steam
-retroarch retoarch-assets-xmb libretro-shaders libretro-snes9x libretro-mgba libretro-bsnes
-
-yay -S otpclient
-
-jdk
-jdownloader2
-imagemagick
-
-vim /etc/mkinitcpio.cong
+```
 #HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)
 HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block filesystems fsck)
-mkinitcpio -p linux
+```
 
-yay -S fprintd
-/etc/pam.d/system-local-login
+Et regénérer le noyau : 
+
+```mkinitcpio -p linux```
+
+* Pour la gestion du lecteur d'empreintes :
+
+```yay -S fprintd```
+
+Dans le fichier `/etc/pam.d/system-local-login` :
+
+```
 auth      sufficient pam_fprintd.so
 auth      include   system-login
+```
 
-fprintd-enroll
+Et on enregistre son empreinte avec `fprintd-enroll`
 
-/usr/share/polkit-1/rules.d/50-net.reactivated.fprint.device.enroll.rules
+Pour des raisons de sécurité, on crée le fichier `/usr/share/polkit-1/rules.d/50-net.reactivated.fprint.device.enroll.rules` avec le contenu suivant :
+
+```
 polkit.addRule(function (action, subject) {
   if (action.id == "net.reactivated.fprint.device.enroll") {
     return subject.user == "root" ? polkit.Result.YES : polkit.result.NO
   }
 })
+```
 
-pacstrap /mnt zip unzip p7zip mc alsa-utils syslog-ng mtools dosfstools lsb-release ntfs-3g exfat-utils bash-completion unrar rsync
+&nbsp;
 
-```yay -S wine lib32-libpulse```
+### Customisation
+
+* Outils :
+
+```
+yay -S galculator --noconfirm
+yay -S filezilla --noconfirm
+yay -S otpclient --noconfirm
+yay -S jdk --noconfirm
+yay -S imagemagick --noconfirm
+yay -S wine lib32-libpulse --noconfirm
+```
+
+* Bureautique :
+
+```yay -S libreoffice-fresh-fr hunspell-fr --noconfirm```
+
+* Internet :
+
+```
+yay -S vivaldi vivaldi-ffmpeg-codecs --noconfirm
+yay -S deluge pygtk --noconfirm
+yay -S jdownloader2 --noconfirm
+```
+
+* Multimédia :
+
+```
+yay -S spotify --noconfirm
+yay -S mkvtoolnix-gui --noconfirm
+yay -S soundconverter --noconfirm
+yay -S smplayer --noconfirm
+yay -S vlc --noconfirm
+yay -S gimp gimp-help-fr --noconfirm
+yay -S inkscape --noconfirm
+yay -S blender --noconfirm
+yay -S easytag --noconfirm
+```
+
+* Gaming :
+
+```
+yay -S steam --noconfirm
+yay -S retroarch retoarch-assets-xmb libretro-shaders libretro-snes9x libretro-mgba libretro-bsnes --noconfirm
+```
+
+* Apparence :
+
+```yay -S pacman -S gtk-engine-murrine gtk-engines --noconfirm```
+
+```
+mkdir .themes
+cd .themes
+git clone https://github.com/vinceliuice/vimix-gtk-themes.git
+```
+
+Et on installe le thème.
+
+```
+mkdir .icons
+cd .icons
+git clone https://github.com/vinceliuice/vimix-icon-theme.git
+```
+
+Et on installe le thème.
+
+* Terminal
+
+```yay -S rxvt-unicode```
+
+Et on crée le fichier ```~/.Xresources```
+
+Sous Gnome, il faut créer le fichier `~/.pam_environment` pour charger le fichier `.Xresources` au démarrage avec Wayland, avec le contenu suivant :
+
+```XENVIRONMENT             DEFAULT=@{HOME}/.Xresources```
 
 
-urxvt
-.Xresources 
-pour loader dans wayland :
 
-vim ~/.pam_environment
-
-XENVIRONMENT             DEFAULT=@{HOME}/.Xresources
