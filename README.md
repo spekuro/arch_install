@@ -3,13 +3,17 @@ INSTALLATION DE BASE
 
 ### Chargement du clavier en français :
 
-```loadkeys fr```
+```
+loadkeys fr
+```
 
 &nbsp;
 
 ### Partitionnement :
 
-```cfdisk```
+```
+cfdisk
+```
 
 On choisit un partitionnement en `GPT` puis on attribue les différentes partitions :
 
@@ -61,11 +65,15 @@ pacstrap /mnt vim
 
 On génère le fichier fstab listant les partitions :
 
-```genfstab -U -p /mnt >> /mnt/etc/fstab```
+```
+genfstab -U -p /mnt >> /mnt/etc/fstab
+```
 
 On entre dans l'environnement :
 
-```arch-chroot /mnt```
+```
+arch-chroot /mnt
+```
 
 &nbsp;
 
@@ -122,7 +130,9 @@ fr_FR.UTF-8 UTF-8
 
 Et on lance la commande :
 
-```locale-gen```
+```
+locale-gen
+```
 
 Pour spécifier le fuseau horaire :
 
@@ -137,7 +147,9 @@ hwclock --systohc --utc
 
 On génère le noyau :
 
-```mkinitcpio -p linux```
+```
+mkinitcpio -p linux
+```
 
 Et on installe NetworkManager (qu'on active au démarrage) :
 
@@ -176,7 +188,9 @@ Include = /etc/pacman.d/mirrorlist
 
 On actualise les dépôts :
 
-```pacman -Sy```
+```
+pacman -Sy
+```
 
 On installe yay pour pouvoir utiliser le Arch User Repository :
 
@@ -210,13 +224,23 @@ yay -S ntp cronie --noconfirm
 yay -S xorg-{server,xinit,apps} xf86-input-{mouse,keyboard} xdg-user-dirs --noconfirm
 ```
 
+&nbsp;
+
 * Pilotes graphiques (ici pour Intel)
 
-```yay -S xf86-video-intel --noconfirm```
+```
+yay -S xf86-video-intel --noconfirm
+```
+
+&nbsp;
 
 * Impression
 
-```yay -S cups system-config-printer --noconfirm```
+```
+yay -S cups system-config-printer --noconfirm
+```
+
+&nbsp;
 
 * Multimedia (Codecs et gestion de l'ouverture des fichiers par mimetype)
 
@@ -225,6 +249,8 @@ yay -S gst-plugins-{base,good,bad,ugly} gst-libav --noconfirm
 yay -S perl-file-mimeinfo --noconfirm
 ```
 
+&nbsp;
+
 * Pour un PC portable (Gestion de l'énergie et du pavé tactile)
 
 ```
@@ -232,13 +258,21 @@ yay -S tlp --noconfirm
 yay -S xf86-input-libinput --noconfirm
 ```
 
+&nbsp;
+
 * Quelques polices
 
-```yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family --noconfirm```
+```
+yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans otf-fira-mono ttf-roboto ttf-ubuntu-font-family --noconfirm
+```
+
+&nbsp;
 
 * Et Gnome :)
 
-```yay -S gnome gnome-extra --noconfirm```
+```
+yay -S gnome gnome-extra --noconfirm
+```
 
 &nbsp;
 
@@ -251,9 +285,15 @@ vim /etc/systemd/journald.conf
 ForwardToSyslog=yes
 ```
 
+&nbsp;
+
 * Pour avoir le clavier en français sous GDM :
 
-```sudo localectl set-x11-keymap fr```
+```
+sudo localectl set-x11-keymap fr
+```
+
+&nbsp;
 
 * On active quelques services au démarrage :
 
@@ -266,9 +306,13 @@ systemctl enable org.cups.cupsd
 systemctl enable ntpd
 ```
 
+&nbsp;
+
 Pour GDM :
 
-```systemctl enable gdm```
+```
+systemctl enable gdm
+```
 
 * Pour avoir un boot plus "sexy", il faut modifier les hooks dans le fichier `/etc/mkinitcpio.conf` :
 
@@ -279,11 +323,17 @@ HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block filesystems fs
 
 Et regénérer le noyau : 
 
-```mkinitcpio -p linux```
+```
+mkinitcpio -p linux
+```
+
+&nbsp;
 
 * Pour la gestion du lecteur d'empreintes :
 
-```yay -S fprintd```
+```
+yay -S fprintd
+```
 
 Dans le fichier `/etc/pam.d/system-local-login` :
 
@@ -319,9 +369,15 @@ yay -S imagemagick --noconfirm
 yay -S wine lib32-libpulse --noconfirm
 ```
 
+&nbsp;
+
 * Bureautique :
 
-```yay -S libreoffice-fresh-fr hunspell-fr --noconfirm```
+```
+yay -S libreoffice-fresh-fr hunspell-fr --noconfirm
+```
+
+&nbsp;
 
 * Internet :
 
@@ -330,6 +386,8 @@ yay -S vivaldi vivaldi-ffmpeg-codecs --noconfirm
 yay -S deluge pygtk --noconfirm
 yay -S jdownloader2 --noconfirm
 ```
+
+&nbsp;
 
 * Multimédia :
 
@@ -345,6 +403,8 @@ yay -S blender --noconfirm
 yay -S easytag --noconfirm
 ```
 
+&nbsp;
+
 * Gaming :
 
 ```
@@ -352,9 +412,13 @@ yay -S steam --noconfirm
 yay -S retroarch retoarch-assets-xmb libretro-shaders libretro-snes9x libretro-mgba libretro-bsnes --noconfirm
 ```
 
+&nbsp;
+
 * Apparence :
 
-```yay -S pacman -S gtk-engine-murrine gtk-engines --noconfirm```
+```
+yay -S pacman -S gtk-engine-murrine gtk-engines --noconfirm
+```
 
 ```
 mkdir .themes
@@ -372,15 +436,18 @@ git clone https://github.com/vinceliuice/vimix-icon-theme.git
 
 Et on installe le thème.
 
+&nbsp;
+
 * Terminal
 
-```yay -S rxvt-unicode```
+```
+yay -S rxvt-unicode
+```
 
-Et on crée le fichier ```~/.Xresources```
+Et on crée le fichier `~/.Xresources`
 
 Sous Gnome, il faut créer le fichier `~/.pam_environment` pour charger le fichier `.Xresources` au démarrage avec Wayland, avec le contenu suivant :
 
-```XENVIRONMENT             DEFAULT=@{HOME}/.Xresources```
-
-
-
+```
+XENVIRONMENT             DEFAULT=@{HOME}/.Xresources
+```
