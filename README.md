@@ -413,7 +413,7 @@ yay -S easytag --noconfirm
 
 ```
 yay -S steam --noconfirm
-yay -S retroarch retoarch-assets-xmb libretro-shaders libretro-snes9x libretro-mgba libretro-bsnes --noconfirm
+yay -S retroarch retoarch-assets-xmb libretro-shaders-glsl libretro-snes9x libretro-mgba libretro-bsnes --noconfirm
 ```
 
 &nbsp;
