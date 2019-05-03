@@ -386,7 +386,7 @@ yay -S libreoffice-fresh-fr hunspell-fr --noconfirm
 * Internet :
 
 ```
-yay -S vivaldi vivaldi-ffmpeg-codecs --noconfirm
+yay -S vivaldi vivaldi-ffmpeg-codecs chrome-gnome-shell --noconfirm
 yay -S deluge pygtk --noconfirm
 yay -S jdownloader2 --noconfirm
 ```
