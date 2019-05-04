@@ -396,6 +396,7 @@ yay -S jdownloader2 --noconfirm
 * Multimédia :
 
 ```
+yay -S pavucontrol --noconfirm
 yay -S spotify --noconfirm
 yay -S mkvtoolnix-gui --noconfirm
 yay -S soundconverter --noconfirm
