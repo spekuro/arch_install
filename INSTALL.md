@@ -77,6 +77,15 @@ arch-chroot /mnt
 
 &nbsp;
 
+#### BIOS
+
+```
+pacstrap /mnt grub os-prober
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+&nbsp;
+
 #### Mise en place du bootloader et installation du microcode :
 
 On installe le bootloader (ici le bootloader de systemd) et le microcode associé au processeur (ici intel) :
