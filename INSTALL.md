@@ -1,3 +1,8 @@
+* indiquer de se connecter avec un cable ethernet
+* partie bios
+* indiquer programmes d'édition
+
+
 INSTALLATION DE BASE
 --------------------
 
@@ -56,7 +61,7 @@ mount /dev/sda1 /mnt/boot
 
 #### Préparation :
 
-On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder que les serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base (et vim pour l'édition des fichiers) :
+On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder qu'un ou deux serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base (et vim pour l'édition des fichiers) :
 
 ```
 pacstrap /mnt base base-devel pacman-contrib
@@ -81,6 +86,12 @@ arch-chroot /mnt
 
 ```
 pacstrap /mnt grub os-prober
+```
+
+dans chroot :
+
+```
+pacman -S intel-ucode
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
