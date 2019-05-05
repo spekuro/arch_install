@@ -1,12 +1,15 @@
-* indiquer de se connecter avec un cable ethernet
-* partie bios
-* indiquer programmes d'édition
-
-
 INSTALLATION DE BASE
 --------------------
 
-### Chargement du clavier en français :
+### Prérequis :
+
+On vérifie qu'Internet soit bien accessible (je conseille une connection par Ethernet pour plus de facilité) :
+
+```
+ping archlinux.org
+```
+
+Et on charge le clavier en français :
 
 ```
 loadkeys fr
@@ -55,13 +58,15 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
+>Sur d'anciens PCs en BIOS, on choisi un partitionnement en `dos`, on garde la première partition /dev/sda1 de type `Linux System` et on la formate en ext4.
+
 &nbsp;
 
 ### Installation de base :
 
 #### Préparation :
 
-On modifie le fichier `/etc/pacman.d/mirrorlist` pour ne garder qu'un ou deux serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base (et vim pour l'édition des fichiers) :
+On modifie le fichier `/etc/pacman.d/mirrorlist` (avec nano ou vi) pour ne garder qu'un ou deux serveurs français (mir.archlinux.fr et/ou archlinux.polymorf.fr par ex.) et on installe la base (et vim pour l'édition des fichiers) :
 
 ```
 pacstrap /mnt base base-devel pacman-contrib
@@ -78,21 +83,6 @@ On entre dans l'environnement :
 
 ```
 arch-chroot /mnt
-```
-
-&nbsp;
-
-#### BIOS
-
-```
-pacstrap /mnt grub os-prober
-```
-
-dans chroot :
-
-```
-pacman -S intel-ucode
-grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 &nbsp;
@@ -123,6 +113,16 @@ options root=PARTUUID=[PARTUUID_sda2] rw
 ```
 
 **NB :** Pour obtenir le PARTUUID dans vim, il faut taper `ECHAP` puis `:r !blkid`
+
+>Sur d'anciens PCs en BIOS, on utilise le bootloader grub :
+>
+>```
+>pacman -S grub os-prober intel-ucode
+>mkdir /boot/grub
+>grub-install --no-floppy --recheck /dev/sda
+>grub-mkconfig -o /boot/grub/grub.cfg
+>```
+
 
 &nbsp;
 
