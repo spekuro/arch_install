@@ -252,6 +252,8 @@ yay -S xorg-{server,xinit,apps} xf86-input-{mouse,keyboard} xdg-user-dirs --noco
 yay -S xf86-video-intel --noconfirm
 ```
 
+> Pour les pilotes libres, il faut choisir ```xf86-video-ati``` pour une carte AMD et ```xf86-video-nouveau``` pour une carte Nvidia.
+
 &nbsp;
 
 * Impression (La deuxième ligne est valable dans le cas d'une imprimante Canon)
@@ -289,11 +291,12 @@ yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans o
 
 &nbsp;
 
-* Et Gnome :)
+* Et l'environnement de bureau :)
 
-```
-yay -S gnome gnome-extra --noconfirm
-```
+	* Gnome :
+	```
+	yay -S gnome gnome-extra --noconfirm
+	```
 
 &nbsp;
 
