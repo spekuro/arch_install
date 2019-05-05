@@ -293,9 +293,19 @@ yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans o
 
 * Et l'environnement de bureau :)
 
-	* Gnome :
+	* Pour Gnome :
 	```
 	yay -S gnome gnome-extra --noconfirm
+	```
+
+	* Pour Kde :
+	```
+	yay -S plasma kde-applications --noconfirm
+	```
+
+	* Pour Xfce :
+	```
+	yay -S xfce4 xfce4-goodies lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
 	```
 
 &nbsp;
@@ -330,11 +340,25 @@ systemctl enable org.cups.cupsd
 systemctl enable ntpd
 ```
 
-Pour GDM :
+* Puis on active le gestionnaire de sessions :
 
-```
-systemctl enable gdm
-```
+	* Pour Gnome (gdm) :
+
+	```
+	systemctl enable gdm
+	```
+
+	* Pour Kde (sddm) :
+
+	```
+	systemctl enable sddm
+	```
+
+	* Pour Xfce (lightdm) :
+
+	```
+	systemctl enable lightdm
+	```
 
 &nbsp;
 
