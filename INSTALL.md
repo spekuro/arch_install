@@ -206,6 +206,8 @@ On active le support "multilib" pour pouvoir installer des librairies 32 bits, n
 Include = /etc/pacman.d/mirrorlist
 ```
 
+On en profite pour activer la coloration en décochant ```Colors``` dans ce même fichier `/etc/pacman.conf`
+
 On actualise les dépôts :
 
 ```
@@ -418,6 +420,7 @@ yay -S jdk --noconfirm
 yay -S imagemagick --noconfirm
 yay -S wine lib32-libpulse --noconfirm
 yay -S lanshare --noconfirm
+yay -S evince --noconfirm
 ```
 
 &nbsp;
