@@ -128,7 +128,7 @@ options root=PARTUUID=[PARTUUID_sda2] rw
 
 #### Passage du système en FR :
 
-On modifie `/etc/vconsole.conf` :
+On modifie/crée `/etc/vconsole.conf` :
 
 ```
 KEYMAP=fr-latin9
@@ -214,15 +214,6 @@ On actualise les dépôts :
 pacman -Sy
 ```
 
-On installe yay pour pouvoir utiliser le Arch User Repository :
-
-```
-pacman -S git
-git clone https://aur.archlinux.org/yay
-cd yay
-makepkg -sri
-```
-
 On crée un utilisateur avec les bons droits :
 
 ```
@@ -232,11 +223,21 @@ passwd [user]
 
 Puis on tape `visudo` et on décommente la ligne juste en dessous de `#Uncomment to allow members of group wheel to execute any command`
 
+On installe ensuite yay pour pouvoir utiliser le Arch User Repository :
+
+```
+sudo -s -u [user]
+pacman -S git
+git clone https://aur.archlinux.org/yay
+cd yay
+makepkg -sri
+```
+
 &nbsp;
 
 ### Installation des paquets nécessaires
 
-On passe ensuite aux installations de paquets avec yay, qui propose également une interface pour pacman :
+On passe ensuite aux installations de paquets avec yay (toujours loggé en tant que [user]), qui propose également une interface pour pacman :
 
 * Base
 
@@ -307,7 +308,7 @@ yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans o
 
 	* Pour Xfce :
 	```
-	yay -S xfce4 xfce4-goodies lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
+	yay -S xfce4 xfce4-goodies network-manager-applet lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm
 	```
 
 &nbsp;
@@ -317,13 +318,13 @@ yay -S ttf-{bitstream-vera,liberation,freefont,dejavu} freetype2 otf-fira-sans o
 * Pour la gestion des logs
 
 ```
-vim /etc/systemd/journald.conf 
+sudo vim /etc/systemd/journald.conf 
 ForwardToSyslog=yes
 ```
 
 &nbsp;
 
-* Pour avoir le clavier en français sous GDM :
+* Pour avoir le clavier en français dès le gestionnaire de sessions :
 
 ```
 sudo localectl set-x11-keymap fr
@@ -334,12 +335,12 @@ sudo localectl set-x11-keymap fr
 * On active quelques services au démarrage :
 
 ```
-systemctl enable syslog-ng@default
-systemctl enable cronie
-systemctl enable avahi-daemon
-systemctl enable avahi-dnsconfd
-systemctl enable org.cups.cupsd
-systemctl enable ntpd
+sudo systemctl enable syslog-ng@default
+sudo systemctl enable cronie
+sudo systemctl enable avahi-daemon
+sudo systemctl enable avahi-dnsconfd
+sudo systemctl enable org.cups.cupsd
+sudo systemctl enable ntpd
 ```
 
 * Puis on active le gestionnaire de sessions :
@@ -347,19 +348,19 @@ systemctl enable ntpd
 	* Pour Gnome (gdm) :
 
 	```
-	systemctl enable gdm
+	sudo systemctl enable gdm
 	```
 
 	* Pour Kde (sddm) :
 
 	```
-	systemctl enable sddm
+	sudo systemctl enable sddm
 	```
 
 	* Pour Xfce (lightdm) :
 
 	```
-	systemctl enable lightdm
+	sudo systemctl enable lightdm
 	```
 
 &nbsp;
@@ -376,7 +377,7 @@ HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block filesystems fs
 Et regénérer le noyau : 
 
 ```
-mkinitcpio -p linux
+sudo mkinitcpio -p linux
 ```
 
 &nbsp;
