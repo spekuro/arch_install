@@ -206,7 +206,7 @@ On active le support "multilib" pour pouvoir installer des librairies 32 bits, n
 Include = /etc/pacman.d/mirrorlist
 ```
 
-On en profite pour activer la coloration en décochant ```Colors``` dans ce même fichier `/etc/pacman.conf`
+On en profite pour activer la coloration en décochant ```Color``` dans ce même fichier `/etc/pacman.conf`
 
 On actualise les dépôts :
 
@@ -226,8 +226,9 @@ Puis on tape `visudo` et on décommente la ligne juste en dessous de `#Uncomment
 On installe ensuite yay pour pouvoir utiliser le Arch User Repository :
 
 ```
-sudo -s -u [user]
 pacman -S git
+sudo -s -u [user]
+cd
 git clone https://aur.archlinux.org/yay
 cd yay
 makepkg -sri
