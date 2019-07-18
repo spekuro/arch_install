@@ -3,16 +3,16 @@ INSTALLATION DE BASE
 
 ### Prérequis :
 
-On vérifie qu'Internet soit bien accessible (je conseille une connection par Ethernet pour plus de facilité) :
-
-```
-ping archlinux.org
-```
-
-Et on charge le clavier en français :
+On charge le clavier en français :
 
 ```
 loadkeys fr
+```
+
+Et on vérifie qu'Internet soit bien accessible (je conseille une connection par Ethernet pour plus de facilité) :
+
+```
+ping archlinux.org
 ```
 
 &nbsp;
