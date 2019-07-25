@@ -42,7 +42,7 @@ mkswap /dev/sda2
 swapon /dev/sda2
 ```
 
-&#x1F538; Il est déconseillé d'utiliser une partition Swap sur un disque SSD.
+&#x1F449; Il est déconseillé d'utiliser une partition Swap sur un disque SSD.
 
 
 On monte ensuite les partitions :
