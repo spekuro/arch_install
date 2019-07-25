@@ -19,7 +19,7 @@ ping archlinux.org
 
 ### Partitionnement :
 
-## Pour un PC sous UEFI :
+#### Pour un PC sous UEFI :
 
 ```
 cfdisk
@@ -53,7 +53,7 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
-## Pour un ancien PC sous BIOS :
+#### Pour un ancien PC sous BIOS :
 
 
 ```
