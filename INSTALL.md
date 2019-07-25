@@ -146,6 +146,8 @@ options root=PARTUUID=[PARTUUID_sda2] rw
 
 **NB :** Pour obtenir le PARTUUID dans vim, il faut taper `ECHAP` puis `:r !blkid`
 
+&nbsp;
+
 #### Pour un ancien PC sous BIOS :
 
 On installe le bootloader (ici le bootloader grub) et le microcode associé au processeur (ici intel) :
