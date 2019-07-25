@@ -25,30 +25,23 @@ cfdisk
 
 On choisit un partitionnement en `GPT` puis on attribue les différentes partitions :
 
-| Référence | Point de montage | Taille   | Type         |
-|-----------|------------------|----------|--------------|
-| /dev/sda1 | /boot            | 512 Mo   | EFI System   |
-| /dev/sda2 | /                | Le reste | Linux System |
+| Référence | Point de montage | Taille                    | Type         |
+|-----------|------------------|---------------------------|--------------|
+| /dev/sda1 | /boot            | 512 Mo                    | EFI System   |
+| /dev/sda2 | -                | Taille identique à la RAM | Linux Swap   |
+| /dev/sda3 | /                | Le reste                  | Linux System |
 
 On quitte et on formate les partitions :
 
 ```
 mkfs.vfat /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+mkswap /dev/sda2
+swapon /dev/sda2
 ```
 
->Dans le cas où on souhaiterait une partition Swap :
->
->| Référence | Point de montage | Taille                      | Type         |
->|-----------|------------------|-----------------------------|--------------|
->| /dev/sdaX | -                | Taille identique à la RAM   | Linux Swap   |
->
->Puis :
->
->```
->mkswap /dev/sdaX
->swapon /dev/sdaX
->```
+>Il est déconseillé d'utiliser une partition Swap sur un disque SSD.
+
 
 On monte ensuite les partitions :
 
