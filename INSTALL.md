@@ -19,6 +19,8 @@ ping archlinux.org
 
 ### Partitionnement :
 
+## Pour un PC sous UEFI :
+
 ```
 cfdisk
 ```
@@ -51,7 +53,40 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
->Sur d'anciens PCs en BIOS, on choisi un partitionnement en `dos`, on garde la première partition /dev/sda1 de type `Linux System` et on la formate en ext4.
+## Pour un ancien PC sous BIOS :
+
+
+```
+cfdisk
+```
+
+On choisit un partitionnement en `DOS` puis on attribue les différentes partitions :
+
+| Référence | Point de montage | Taille                    | Type         |
+|-----------|------------------|---------------------------|--------------|
+| /dev/sda1 | /boot            | 512 Mo                    | Linux System |
+| /dev/sda2 | -                | Taille identique à la RAM | Linux Swap   |
+| /dev/sda3 | /                | Le reste                  | Linux System |
+
+On quitte et on formate les partitions :
+
+```
+mkfs.ext2 /dev/sda1
+mkfs.ext4 /dev/sda3
+mkswap /dev/sda2
+swapon /dev/sda2
+```
+
+>Il est déconseillé d'utiliser une partition Swap sur un disque SSD.
+
+
+On monte ensuite les partitions :
+
+```
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+```
 
 &nbsp;
 
