@@ -53,6 +53,8 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
+&nbsp;
+
 #### Pour un ancien PC sous BIOS :
 
 
