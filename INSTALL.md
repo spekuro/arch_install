@@ -119,6 +119,8 @@ arch-chroot /mnt
 
 #### Mise en place du bootloader et installation du microcode :
 
+#### Pour un PC sous UEFI :
+
 On installe le bootloader (ici le bootloader de systemd) et le microcode associé au processeur (ici intel) :
 
 `bootctl install` pour l'installation du bootloader.
@@ -144,15 +146,19 @@ options root=PARTUUID=[PARTUUID_sda2] rw
 
 **NB :** Pour obtenir le PARTUUID dans vim, il faut taper `ECHAP` puis `:r !blkid`
 
->Sur d'anciens PCs en BIOS, on utilise le bootloader grub :
->
->```
->pacman -S grub os-prober intel-ucode
->mkdir /boot/grub
->grub-install --no-floppy --recheck /dev/sda
->grub-mkconfig -o /boot/grub/grub.cfg
->```
+#### Pour un ancien PC sous BIOS :
 
+On installe le bootloader (ici le bootloader grub) et le microcode associé au processeur (ici intel) :
+```
+pacman -S grub os-prober intel-ucode
+```
+
+Et on entre les commandes nécessaires pour la mise en place :
+```
+mkdir /boot/grub
+grub-install --no-floppy --recheck /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 &nbsp;
 
